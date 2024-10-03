@@ -34,11 +34,13 @@
                     let val = parseInt($('#resultado').text())
                     let valor = parseInt($(this).val())
 
-                    if($(this).prop('checked')){
-                        $('#resultado').text(val + valor)
-                    } else{
-                        $('#resultado').text(val - valor)
-                    }
+                    // $(this).prop('checked') ? $('#resultado').text(val + valor) : $('#resultado').text(val - valor);
+                    let suma = 0;
+                    let checked = $('input[type="checkbox"]:checked')
+                        .each(function() {
+                            suma += parseInt($(this).val())
+                        })
+                    $('#resultado').text(suma)
                 })
             }
         });

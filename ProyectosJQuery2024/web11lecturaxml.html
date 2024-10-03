@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Servicio XML Empleados</h1>
+    <button id="bttLeer">Leer XML</button>
+    <ul id="listEmpleados"></ul>
+
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+    
+    $(document).ready(function () {
+        $('#bttLeer').click(function () {
+            $.get("documents/empleados.xml",
+                function (data) {
+                    $(data).find('APELLIDO').each(function () {
+                        let fila = $('<li>')
+                        fila.text($(this).text())
+                        $('#listEmpleados').append(fila);
+                    })
+                }
+            );
+        });
+    });
+
+</script>
+
+</html>

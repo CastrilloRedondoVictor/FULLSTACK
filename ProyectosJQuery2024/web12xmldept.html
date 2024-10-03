@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td {
+            border-style: double;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de departamentos</h1>
+    <table id="tabla">
+        <tr>
+            <td bgcolor="grey">DEPT_NO</td>
+            <td bgcolor="grey">NOMBRE</td>
+            <td bgcolor="grey">LOCALIDAD</td>
+        </tr>
+    </table>
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $.get("documents/departamentos.xml",
+            function (data) {
+                $(data).find('DEPT').each(function() {
+                    let tdsta = $('<tr>');
+                    
+                    let num = $(this).attr('DEPT_NO')
+                    let nombre = $(this).find('DNOMBRE').first().text()
+                    let locatddad = $(this).find('LOC').first().text()
+
+                    let datoNum = $('<td>', {'text': num});
+                    let datoNom = $('<td>', {'text': nombre});
+                    let datoLoc = $('<td>', {'text': locatddad});
+
+                    $(tdsta).append(datoNum).append(datoNom).append(datoLoc);
+
+                    $('#tabla').append(tdsta)
+                })
+            }
+        );
+    });
+
+</script>
+
+</html>
