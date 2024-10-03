@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .azul {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COMENTARIOS -- CONTROL + K + C  -->
+    <!-- DESCOMENTAR -- CONTROL + K + U -->
+
+    <h1>Selectores JQuery</h1>
+    <button id="btt1">Pulsar para algo...</button>
+
+    <h2 class="azul">Soy un título azul</h2>
+    <button class="azul">Soy un botón azul</button>
+
+    <p>Aprendiendo JQuery 1</p>
+    <p>Aprendiendo JQuery 2</p>
+    <p>Aprendiendo JQuery 3</p>
+
+     <script src="js/jquery-3.7.1.js"></script>
+     <script>
+
+        // AQUÍ NUESTRO CÓDIGO JQUERY
+        // LA PRIMERA LÍNEA DEL JQUERY SERÁ QUIEN REALICE LAS ACCIONES AL CARGAR LA PÁGINA
+
+        $(document).ready(function() {
+            // $('h1').hide();
+            // $('#btt1').hide();
+
+            $('p').click(function() {
+                console.log('Has pulsado un p');
+                $(this).hide();
+            })
+
+            $('#btt1').click(function() {
+                alert('Soy un botón');
+            })
+        })
+
+     </script>
+
+</body>
+</html>

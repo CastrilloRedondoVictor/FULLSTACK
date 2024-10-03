@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="inp1">
+    <input type="text" id="inp2">
+    <input type="text" id="inp3">
+    <button id="btt">CALCULAR</button>
+    <h1 id="res"></h1>
+</body>
+
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#btt').click(function () {
+            
+            var num1 = parseFloat($('#inp1').val());
+            var num2 = parseFloat($('#inp2').val());
+            var num3 = parseFloat($('#inp3').val());
+            var nums = [num1, num2, num3]
+            var ordenados = nums.sort((a, b) => a - b).reverse()
+
+            $('#res').html(ordenados[0] + ' > ' + ordenados[1] + ' > ' + ordenados[2]);
+            
+            // if (num1 > num2 && num1 > num3) {
+            //     if (num2 > num3) {
+            //         $('#res').html(num1 + ' > ' + num2 + ' > ' + num3);
+            //     } else {
+            //         $('#res').html(num1 + ' > ' + num3 + ' > ' + num2);
+            //     }
+            // } else {
+            //     if (num2 > num1 && num2 > num3) {
+            //         if (num1 > num3) {
+            //             $('#res').html(num2 + ' > ' + num1 + ' > ' + num3);
+            //         } else {
+            //             $('#res').html(num2 + ' > ' + num3 + ' > ' + num1);
+            //         }
+            //     } else {
+            //         if (num1 > num2) {
+            //             $('#res').html(num3 + ' > ' + num1 + ' > ' + num2);
+            //         } else {
+            //             $('#res').html(num3 + ' > ' + num2 + ' > ' + num1);
+            //         }
+            //     }
+            // }
+        });
+    });
+
+</script>
+
+</html>
