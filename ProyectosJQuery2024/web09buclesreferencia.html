@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Bucles referencia</h1>
+    <p>Párrafo 1</p>
+    <p>Párrafo 2</p>
+    <p>Párrafo 3</p>
+    <p>Párrafo 4</p>
+    <p>Párrafo 5</p>
+
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('p').click(function() {
+            var colors = ['blue', 'yellow', 'red', 'green', 'fuchsia']
+
+            $('p').each( function () { 
+                var indice = parseInt(Math.random() * colors.length)
+                var color = colors[indice]
+                 $(this).css('background-color', color)
+            });
+        })
+    });
+
+</script>
+
+</html>
