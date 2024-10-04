@@ -21,21 +21,28 @@
     $(document).ready(function () {
         var clientes;
 
-        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes",
+        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes/GetClientesXML",
             function (data) {
                 clientes = $(data).find('Cliente')
                 
                 clientes.each(function(){
-                    let btt = $('<button>', {'text': $(this).find('Nombre').text(), 'value':$(this).find('Nombre').text()}).click(function(){
-                        let cliente = clientes.filter(function() {
-                            return $(this).find('Nombre').text() == btt.val()
-                        })
+                    let btt = $('<button>', {'text': $(this).find('NOMBRE').text(), 'value':$(this).attr('IDCLIENTE').text()}).click(function(){
+                        // let cliente = clientes.filter(function() {
+                        //     return $(this).find('NOMBRE').text() == btt.val()
+                        // })
+                        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes/" + $(this).val() + "",
+                            function (data) {
+                                console.log(data)
+                            }
+                        );
+
                         $('#info').html('')
-                        $('#info').append($('<h3>', {'text': cliente.find('Nombre').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('Email').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('PaginaWeb').text()}))
-                        $('#info').append($('<img>', {'src': cliente.find('Imagen').text()}))
-                        
+                        $('#info').append($('<h3>', {'text': cliente.find('NOMBRE').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('DIRECCION').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('EMAIL').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('CODIGOPOSTAL').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('PAGINAWEB').text()}))
+                        $('#info').append($('<img>', {'src': cliente.find('IMAGENCLIENTE').text()}))
                     })
                     $('#botones').append(btt)
                 })
