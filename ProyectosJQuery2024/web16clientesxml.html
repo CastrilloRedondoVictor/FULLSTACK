@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 250px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="botones"></div>
+    <div id="info"></div>
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var clientes;
+
+        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes",
+            function (data) {
+                clientes = $(data).find('Cliente')
+                
+                clientes.each(function(){
+                    let btt = $('<button>', {'text': $(this).find('Nombre').text(), 'value':$(this).find('Nombre').text()}).click(function(){
+                        let cliente = clientes.filter(function() {
+                            return $(this).find('Nombre').text() == btt.val()
+                        })
+                        $('#info').html('')
+                        $('#info').append($('<h3>', {'text': cliente.find('Nombre').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('Email').text()}))
+                        $('#info').append($('<h3>', {'text': cliente.find('PaginaWeb').text()}))
+                        $('#info').append($('<img>', {'src': cliente.find('Imagen').text()}))
+                        
+                    })
+                    $('#botones').append(btt)
+                })
+            }
+        );
+    });
+
+</script>
+
+</html>

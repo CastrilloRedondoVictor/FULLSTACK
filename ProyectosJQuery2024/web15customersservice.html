@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select name="" id="selectCustomers"></select>
+    <div id="info"></div>
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var customers;
+        $('#selectCustomers').append($('<option>', {'text':' - - SELECT AN OPTION - - '}))
+
+        $.get("https://northwind.netcore.io/customers.xml",
+                function (data) {
+                    customers = $(data).find('d2p1\\:Customer')
+                    customers.each(function() {
+                        let option = $('<option>', {'text':$(this).find('d2p1\\:ContactName').text()})
+                        $('#selectCustomers').append(option)
+                    })
+                }
+        );
+
+        $('#selectCustomers').change(function(){
+
+            $('#info').html('')
+
+            let selected = customers.filter(function() {
+                return $(this).find('d2p1\\:ContactName').text() == $('#selectCustomers').val()
+            })
+
+            $('#info').append($('<h3>', {'text':selected.find('d2p1\\:ContactTitle').text()})).append($('<h3>', {'text':selected.find('d2p1\\:Country').text()})).append($('<h3>', {'text':selected.find('d2p1\\:Phone').text()}))
+        })
+    });
+
+</script>
+
+</html>

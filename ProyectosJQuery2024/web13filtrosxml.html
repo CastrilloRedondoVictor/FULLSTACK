@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Filtros XML</h1>
+    <label for="">Introduce un ID</label>
+    <input type="text" name="" id="inpID">
+    <button id="bttID">Buscar departamento</button>
+
+    <hr>
+    
+    <label for="">Introduce una localidad</label>
+    <input type="text" name="" id="inpLOC">
+    <button id="bttLOC">Buscar departamento</button>
+
+    <hr>
+
+    <ul id="list"></ul>
+
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#bttID').click(function () { 
+            let id = $('#inpID').val();
+
+            $.get("documents/departamentos.xml",
+                function (data) {
+                    $(data).find('DEPT[DEPT_NO='+ id +']').each(function() {
+                        let nombre = $(this).find('DNOMBRE').first().text()
+                        let locatddad = $(this).find('LOC').first().text()
+                        let datoNum = $('<li>', {'text': id});
+                        let datoNom = $('<li>', {'text': nombre});
+                        let datoLoc = $('<li>', {'text': locatddad});
+                        $('#list').html('')
+                        $('#list').append(datoNum).append(datoNom).append(datoLoc)
+                    })
+
+                    if($(data).find('DEPT[DEPT_NO='+ id +']').length == 0) {
+                        $('#list').html('')
+                        $('#list').append($('<li>', {'text': 'Departamento no encontrado'}))
+                    }
+                }
+            );
+        });
+
+        $('#bttLOC').click(function () { 
+            let loc = $('#inpLOC').val();
+
+            $.get("documents/departamentos.xml",
+                function (data) {
+                    let res = $(data).find('DEPT:contains("'+ loc +'")').each(function() {
+                        let nombre = $(this).find('DNOMBRE').first().text()
+                        let num = $(this).attr('DEPT_NO')
+                        let datoNum = $('<li>', {'text': num});
+                        let datoNom = $('<li>', {'text': nombre});
+                        let datoLoc = $('<li>', {'text': loc});
+                        
+                        $('#list').html('')
+                        $('#list').append(datoNum).append(datoNom).append(datoLoc)
+                    })
+
+                    if($(data).find('DEPT:contains("'+ loc +'")').length == 0) {
+                        $('#list').html('')
+                        $('#list').append($('<li>', {'text': 'Departamento no encontrado'}))
+                    }
+                }
+            );
+        });
+    });
+
+</script>
+
+</html>

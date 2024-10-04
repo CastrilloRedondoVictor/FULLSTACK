@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            margin: 10px;
+        }
+        td {
+            border-style:groove;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Alumnos notas XML</h1>
+    <label for="">Introduce la nota: </label>
+    <input type="text" name="" id="inpNota">
+    <button id="bttNota">Buscar alumnos</button>
+
+    <table id="info">
+        <tr>
+            <td><b>NOMBRE</b></td>
+            <td><b>APELLIDOS</b></td>
+            <td><b>NOTA</b></td>
+        </tr>
+    </table>
+    <h3 id="error"></h3>
+
+</body>
+
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#bttNota').click(function () { 
+            
+            let nota = $('#inpNota').val();
+            $('#info').html('<tr><td><b>NOMBRE</b></td><td><b>APELLIDOS</b></td><td><b>NOTA</b></td></tr>')
+            $('#error').text('')
+
+            $.get("documents/alumnos.xml",
+                function (data) {
+
+                    let resultados = $(data).find('nota').filter(function() {
+                        return $(this).text() >= nota;
+                    });
+
+                    if(resultados.length == 0 || !nota ){
+                            $('#error').text('No se ha encontrado ningún alumno')
+                    } else{
+                        resultados.each( function() {
+                            let parent = $(this).parent()
+
+                            let fila = $('<tr>')
+
+                            fila.append($('<td>', {'text': $(parent).find('nombre').first().text()}))
+                            fila.append($('<td>', {'text': $(parent).find('apellidos').first().text()}))
+                            fila.append($('<td>', {'text': $(parent).find('nota').first().text()}))
+
+                            $('#info').append(fila)
+                    })
+                    }
+                }
+            );
+
+        });
+    });
+
+</script>
+</html>
