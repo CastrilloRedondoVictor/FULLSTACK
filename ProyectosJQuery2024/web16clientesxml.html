@@ -26,23 +26,31 @@
                 clientes = $(data).find('Cliente')
                 
                 clientes.each(function(){
-                    let btt = $('<button>', {'text': $(this).find('NOMBRE').text(), 'value':$(this).attr('IDCLIENTE').text()}).click(function(){
+                    let btt = $('<button>', {'text': $(this).find('NOMBRE').text(), 'value':$(this).attr('IDCLIENTE')}).click(function(){
+                        
                         // let cliente = clientes.filter(function() {
                         //     return $(this).find('NOMBRE').text() == btt.val()
                         // })
+
                         $.get("https://apiclientesxml.azurewebsites.net/api/Clientes/" + $(this).val() + "",
                             function (data) {
-                                console.log(data)
+                                $('#info').html('')
+                                $('#info').append($('<h3>', {'text': $(data).find('NOMBRE').text()}))
+                                $('#info').append($('<h3>', {'text': $(data).find('DIRECCION').text()}))
+                                $('#info').append($('<h3>', {'text': $(data).find('EMAIL').text()}))
+                                $('#info').append($('<h3>', {'text': $(data).find('CODIGOPOSTAL').text()}))
+                                $('#info').append($('<h3>', {'text': $(data).find('PAGINAWEB').text()}))
+                                $('#info').append($('<img>', {'src': $(data).find('IMAGENCLIENTE').text()}))
                             }
                         );
 
-                        $('#info').html('')
-                        $('#info').append($('<h3>', {'text': cliente.find('NOMBRE').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('DIRECCION').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('EMAIL').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('CODIGOPOSTAL').text()}))
-                        $('#info').append($('<h3>', {'text': cliente.find('PAGINAWEB').text()}))
-                        $('#info').append($('<img>', {'src': cliente.find('IMAGENCLIENTE').text()}))
+                        // $('#info').html('')
+                        // $('#info').append($('<h3>', {'text': cliente.find('NOMBRE').text()}))
+                        // $('#info').append($('<h3>', {'text': cliente.find('DIRECCION').text()}))
+                        // $('#info').append($('<h3>', {'text': cliente.find('EMAIL').text()}))
+                        // $('#info').append($('<h3>', {'text': cliente.find('CODIGOPOSTAL').text()}))
+                        // $('#info').append($('<h3>', {'text': cliente.find('PAGINAWEB').text()}))
+                        // $('#info').append($('<img>', {'src': cliente.find('IMAGENCLIENTE').text()}))
                     })
                     $('#botones').append(btt)
                 })
