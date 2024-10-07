@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+
+    <h1>DEPARTAMENTOS JSON</h1>
+
+    <div class="form">
+        <label for="">NÚMERO</label>
+        <input type="text" id="inpNum">
+    
+        <label for="">NOMBRE</label>
+        <input type="text" id="inpNom">
+        
+        <label for="">LOCALIDAD</label>
+        <input type="text" id="inpLoc">
+
+        <button id="bttInsert">Insert</button>
+        <button id="bttUpdate">Update</button>
+        <button id="bttDelete" class="delete">Delete</button>
+    </div>
+
+    <hr>
+
+    <table id="info">
+        <thead>
+            <tr>
+                <th>NÚMERO</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    var url = 'https://apicruddepartamentoscore.azurewebsites.net/'
+
+   $(document).ready(function () {
+        let departamentos = getDepartments();
+        console.log(departamentos)
+   });
+
+   function getDepartments() {
+    let request = 'api/Departamentos'
+    $.ajax({
+        type: "GET",
+        url: url + request,
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            return response;
+        }
+    });
+   }
+
+</script>
+
+</html>

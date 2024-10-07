@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+
+    <div class="form">
+        <label for="">ID</label>
+        <input type="text" id="inpId">
+    
+        <label for="">NOMBRE</label>
+        <input type="text" id="inpNom">
+        
+        <label for="">LOCALIDAD</label>
+        <input type="text" id="inpLoc">
+
+        <button id="bttInsert">Insert</button>
+        <button id="bttUpdate">Update</button>
+        <button id="bttDelete" class="delete">Delete</button>
+    </div>
+
+    <hr>
+
+    <table id="info">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+    var url = 'https://apicruddepartamentosxml.azurewebsites.net/'
+
+    $(document).ready(function () {
+        loadDepartments();
+
+        $('#bttInsert').click(function () { 
+            let id = $('#inpId').val();
+            let nombre = $('#inpNom').val();
+            let localidad = $('#inpLoc').val();
+
+            if(id && nombre && localidad){
+                let request = 'api/Departamentos'
+                $.ajax({
+                    type: "POST",
+                    url: url + request,
+                    dataType: "text",
+                    contentType: "text/xml",
+                    data: getDepartmentXML(id, nombre, localidad),
+                    success: function (response) {
+                        loadDepartments();
+                    }
+                });
+            } else{
+                console.log('COMPLETAR DATOS')
+            }
+        });
+
+        $('#bttUpdate').click(function () { 
+            let id = $('#inpId').val();
+            let nombre = $('#inpNom').val();
+            let localidad = $('#inpLoc').val();
+
+            if(id && nombre && localidad){
+                let request = 'api/Departamentos'
+                $.ajax({
+                    type: "PUT",
+                    url: url + request,
+                    dataType: "text",
+                    contentType: "text/xml",
+                    data: getDepartmentXML(id, nombre, localidad),
+                    success: function (response) {
+                        loadDepartments();
+                    }
+                });
+            } else{
+                console.log('COMPLETAR DATOS')
+            }
+        });
+
+        $('#bttDelete').click(function () { 
+            let id = $('#inpId').val();
+            let nombre = $('#inpNom').val();
+            let localidad = $('#inpLoc').val();
+
+            if(id){
+                let request = 'api/Departamentos/' + id
+                $.ajax({
+                    type: "DELETE",
+                    url: url + request,
+                    dataType: "text",
+                    success: function (response) {
+                        loadDepartments();
+                    }
+                });
+            } else{
+                console.log('COMPLETAR DATOS')
+            }
+        });
+    });
+
+    function getDepartmentXML(id, nombre, localidad) {
+         return"<Departamento><IdDepartamento>"+ id +"</IdDepartamento><Nombre>"+ nombre +"</Nombre><Localidad>"+ localidad +"</Localidad></Departamento>"
+    }
+
+    function loadDepartments() {
+
+        var request = 'api/Departamentos'
+
+        $.get(url + request,
+            function (data) {
+                $('#info tbody').html('')
+                $(data).find('Departamento').each(function() {
+                    let fila = $('<tr>')
+                        fila.append($('<td>', {text:$(this).find('idDepartamento').text()}))
+                        fila.append($('<td>', {text:$(this).find('Nombre').text()}))
+                        fila.append($('<td>', {text:$(this).find('Localidad').text()}))
+
+                    $('#info tbody').append(fila)
+                })
+            }
+        );
+    }
+
+</script>
+
+</html>

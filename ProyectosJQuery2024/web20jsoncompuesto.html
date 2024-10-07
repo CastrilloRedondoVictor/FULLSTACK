@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+    <h1>Documento JSON compuesto</h1>
+    <button id="bttLoad">Cargar tareas compuestas</button>
+    <ul id="clientes">
+
+    </ul>
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#bttLoad').click(function(){
+            // $.getJSON("documents/clientes.json",
+            //     function (data) {
+            //         $('#clientes').html('')
+            //         $.each(data.clientes, function (key, value) {
+            //             let li = $('<li>', {text: key + ' - ' + value.nombre})
+            //                 $('#clientes').append(li)
+            //         });
+            //     }
+            // );
+
+            $.ajax({
+                type: "GET",
+                url: "documents/clientes.json",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response.clientes, function (key, value) {
+                        let li = $('<li>', {text: key + ' - ' + value.nombre})
+                            $('#clientes').append(li)
+                    });
+                }
+            });
+        })
+    });
+
+</script>
+
+</html>

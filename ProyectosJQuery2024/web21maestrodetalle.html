@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+    <h1>Documento JSON compuesto</h1>
+    <select name="" id="selectJugadores">
+        <option value="">SELECCIONA JUGADOR</option>
+    </select>
+    <table id="jugadores">
+        <tbody></tbody>
+    </table>
+    <div id="img"></div>
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var jugadores;
+        $('#selectJugadores').html('<option value="">SELECCIONA JUGADOR</option>')
+        $.getJSON("documents/jugadores.json",
+            function (data) {
+                jugadores = data.jugadores;
+                $.each(data.jugadores, function (key, value) { 
+
+                    option = $('<option>', {value: key, text: value.nombre})
+
+                    $('#selectJugadores').append(option)
+                     
+                });
+            }
+        );
+
+        $('#selectJugadores').change(function(){
+            // $.each(jugadores, function (key, value) { 
+            //     if(key == $('#selectJugadores').val()){
+            //         $('#jugadores tbody').html('')
+            //         $('#img').html('')
+            //         let ul = $('<ul>')
+            //         ul.append($('<li>', {text: 'Número:' + value.numero}))
+            //             .append($('<li>', {text: 'Nombre:' + value.nombre}))
+            //             .append($('<li>', {text: 'Posición:' + value.posicion}))
+            //             .append($('<li>', {text: 'Edad:' + value.edad})) 
+            //         $('#jugadores tbody').html(ul)
+            //         $('#img').append($('<img>', {src: value.imagen}))
+            //     }
+            // });
+
+            var player = jugadores[$('#selectJugadores').val()]
+            // var player = jugadores[$('#selectJugadores').prop('selectedIndex') - 1]
+            $('#jugadores tbody').html('')
+                    $('#img').html('')
+                    let ul = $('<ul>')
+                    ul.append($('<li>', {text: 'Número:' + player.numero}))
+                        .append($('<li>', {text: 'Nombre:' + player.nombre}))
+                        .append($('<li>', {text: 'Posición:' + player.posicion}))
+                        .append($('<li>', {text: 'Edad:' + player.edad})) 
+                    $('#jugadores tbody').html(ul)
+                    $('#img').append($('<img>', {src: player.imagen}))
+        })
+    });
+
+</script>
+
+</html>

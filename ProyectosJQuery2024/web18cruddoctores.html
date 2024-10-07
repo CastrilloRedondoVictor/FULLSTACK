@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+
+    <div class="form">
+        <label for="">APELLIDO</label>
+        <input type="text" id="inpApellido">
+    
+        <label for="">ESPECIALIDAD</label>
+        <input type="text" id="inpEspecialidad">
+        
+        <label for="">ID DOCTOR</label>
+        <input type="text" id="inpIdDoctor">
+
+        <label for="">ID HOSPITAL</label>
+        <input type="text" id="inpIdHospital">
+
+        <label for="">SALARIO</label>
+        <input type="text" id="inpSalario">
+
+        <button id="bttInsert">Insert</button>
+        <button id="bttUpdate">Update</button>
+        <button id="bttDelete" class="delete">Delete</button>
+        <button id="bttSearch">Search</button>
+        <button id="bttAll">All</button>
+    </div>
+
+    <hr>
+
+    <table id="info">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Especialidad</th>
+                <th>IdDoctor</th>
+                <th>IdHospital</th>
+                <th>Salario</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    var url = 'https://apicruddoctoresxml.azurewebsites.net/'
+
+    $(document).ready(function () {
+
+        loadDoctors()
+
+        $('#bttInsert').click(function () { 
+            let apellido = $('#inpApellido').val()
+            let especialidad = $('#inpEspecialidad').val()
+            let idDoctor = $('#inpIdDoctor').val()
+            let idHospital = $('#inpIdHospital').val()
+            let salario = $('#inpSalario').val()
+
+            if(apellido && especialidad && idDoctor && idHospital && salario){
+                let request = 'api/Doctores'
+                $.ajax({
+                    type: "POST",
+                    url: url + request,
+                    dataType: "text",
+                    contentType: 'text/xml',
+                    data: getDoctorXML(apellido, especialidad, idDoctor, idHospital, salario),
+                    success: function (response) {
+                        loadDoctors()
+                    }
+                });
+            } else{
+                console.log('AÑADIR CAMPOS')
+            }
+        });
+
+        $('#bttUpdate').click(function () { 
+            let apellido = $('#inpApellido').val()
+            let especialidad = $('#inpEspecialidad').val()
+            let idDoctor = $('#inpIdDoctor').val()
+            let idHospital = $('#inpIdHospital').val()
+            let salario = $('#inpSalario').val()
+
+            if(apellido && especialidad && idDoctor && idHospital && salario){
+                let request = 'api/Doctores'
+                $.ajax({
+                    type: "PUT",
+                    url: url + request,
+                    dataType: "text",
+                    contentType: 'text/xml',
+                    data: getDoctorXML(apellido, especialidad, idDoctor, idHospital, salario),
+                    success: function (response) {
+                        loadDoctors()
+                    }
+                });
+            } else{
+                console.log('AÑADIR CAMPOS')
+            }
+        });
+
+        $('#bttDelete').click(function () {
+            let idDoctor = $('#inpIdDoctor').val()
+
+            if(idDoctor){
+                let request = 'api/Doctores'
+                $.ajax({
+                    type: "DELETE",
+                    url: url + request + '/' + idDoctor,
+                    dataType: "text",
+                    success: function (response) {
+                        loadDoctors()
+                    }
+                });
+            } else{
+                console.log('AÑADIR CAMPOS')
+            }
+        });
+
+        $('#bttSearch').click(function() {
+            let idDoctor = $('#inpIdDoctor').val()
+
+            searchDoctor(idDoctor)
+        })
+
+        $('#bttAll').click(function() {
+            loadDoctors()
+        })
+
+    });
+
+
+    function getDoctorXML(apellido, especialidad, idDoctor, idHospital, salario) {
+         return"<Doctor><Apellido>"+ apellido +"</Apellido><Especialidad>"+ especialidad +"</Especialidad><IdDoctor>"+ idDoctor +"</IdDoctor><IdHospital>"+ idHospital +"</IdHospital><Salario>"+ salario +"</Salario></Doctor>"
+    }
+
+
+    function loadDoctors() {
+
+        var request = 'api/Doctores'
+
+        $.get(url + request,
+            function (data) {
+                $('#info tbody').html('')
+                $(data).find('Doctor').each(function() {
+                    let fila = $('<tr>')
+                        fila.append($('<td>', {text:$(this).find('Apellido').text()}))
+                        fila.append($('<td>', {text:$(this).find('Especialidad').text()}))
+                        fila.append($('<td>', {text:$(this).find('IdDoctor').text()}))
+                        fila.append($('<td>', {text:$(this).find('IdHospital').text()}))
+                        fila.append($('<td>', {text:$(this).find('Salario').text()}))
+                        
+                    $('#info tbody').append(fila)
+                })
+            }
+        );
+    }
+
+    function searchDoctor(idDoctor) {
+
+        var request = 'api/Doctores/' + idDoctor
+
+        $.get(url + request,
+            function (data) {
+                $('#info tbody').html('')
+                $(data).find('Doctor').each(function() {
+                    let fila = $('<tr>')
+                        fila.append($('<td>', {text:$(this).find('Apellido').text()}))
+                        fila.append($('<td>', {text:$(this).find('Especialidad').text()}))
+                        fila.append($('<td>', {text:$(this).find('IdDoctor').text()}))
+                        fila.append($('<td>', {text:$(this).find('IdHospital').text()}))
+                        fila.append($('<td>', {text:$(this).find('Salario').text()}))
+                        
+                    $('#info tbody').append(fila)
+                })
+            }
+        );
+    }
+
+</script>
+
+</html>

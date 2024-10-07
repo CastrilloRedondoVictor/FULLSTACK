@@ -32,8 +32,9 @@
                         //     return $(this).find('NOMBRE').text() == btt.val()
                         // })
 
-                        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes/" + $(this).val() + "",
+                        $.get("https://apiclientesxml.azurewebsites.net/api/Clientes/" + $(this).val(),
                             function (data) {
+                                console.log(btt.val())
                                 $('#info').html('')
                                 $('#info').append($('<h3>', {'text': $(data).find('NOMBRE').text()}))
                                 $('#info').append($('<h3>', {'text': $(data).find('DIRECCION').text()}))
