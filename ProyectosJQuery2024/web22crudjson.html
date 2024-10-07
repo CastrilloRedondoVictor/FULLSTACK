@@ -48,21 +48,145 @@
     var url = 'https://apicruddepartamentoscore.azurewebsites.net/'
 
    $(document).ready(function () {
-        let departamentos = getDepartments();
-        console.log(departamentos)
-   });
 
-   function getDepartments() {
     let request = 'api/Departamentos'
     $.ajax({
         type: "GET",
         url: url + request,
         dataType: "json",
         success: function (response) {
-            console.log(response)
-            return response;
+            $('#info tbody').html('')
+            $.each(response, function (key, value) { 
+                let tr = $('<tr>')
+                tr.append($('<td>', {text: value.numero}))
+                    .append($('<td>', {text: value.nombre}))
+                    .append($('<td>', {text: value.localidad}))
+                $('#info tbody').append(tr)
+            });
         }
     });
+
+
+    // INSERT
+
+    $('#bttInsert').click(function () { 
+        let numero = $('#inpNum').val();
+        let nombre = $('#inpNom').val();
+        let localidad = $('#inpLoc').val();
+
+        if(numero && nombre && localidad){
+            let request = 'api/Departamentos'
+            $.ajax({
+                type: "POST",
+                url: url + request,
+                contentType: "application/json",
+                data: JSON.stringify(returnDataJson(numero, nombre, localidad)),
+                success: function (response) {
+                    //MOSTRAR DATOS
+
+                    let request = 'api/Departamentos'
+                    $.ajax({
+                        type: "GET",
+                        url: url + request,
+                        dataType: "json",
+                        success: function (response) {
+                            $('#info tbody').html('')
+                            $.each(response, function (key, value) { 
+                                let tr = $('<tr>')
+                                tr.append($('<td>', {text: value.numero}))
+                                    .append($('<td>', {text: value.nombre}))
+                                    .append($('<td>', {text: value.localidad}))
+                                $('#info tbody').append(tr)
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+
+    // UPDATE
+
+    $('#bttUpdate').click(function () { 
+        let numero = $('#inpNum').val();
+        let nombre = $('#inpNom').val();
+        let localidad = $('#inpLoc').val();
+
+        if(numero && nombre && localidad){
+            let request = 'api/Departamentos'
+            $.ajax({
+                type: "PUT",
+                url: url + request,
+                contentType: "application/json",
+                data: JSON.stringify(returnDataJson(numero, nombre, localidad)),
+                success: function (response) {
+                    //MOSTRAR DATOS
+
+                    let request = 'api/Departamentos'
+                    $.ajax({
+                        type: "GET",
+                        url: url + request,
+                        dataType: "json",
+                        success: function (response) {
+                            $('#info tbody').html('')
+                            $.each(response, function (key, value) { 
+                                let tr = $('<tr>')
+                                tr.append($('<td>', {text: value.numero}))
+                                    .append($('<td>', {text: value.nombre}))
+                                    .append($('<td>', {text: value.localidad}))
+                                $('#info tbody').append(tr)
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+
+    // DELETE
+
+    $('#bttDelete').click(function () { 
+        let numero = $('#inpNum').val();
+
+        if(numero){
+            let request = 'api/Departamentos/' + numero
+            $.ajax({
+                type: "DELETE",
+                url: url + request,
+                success: function (response) {
+                    //MOSTRAR DATOS
+
+                    let request = 'api/Departamentos'
+                    $.ajax({
+                        type: "GET",
+                        url: url + request,
+                        dataType: "json",
+                        success: function (response) {
+                            $('#info tbody').html('')
+                            $.each(response, function (key, value) { 
+                                let tr = $('<tr>')
+                                tr.append($('<td>', {text: value.numero}))
+                                    .append($('<td>', {text: value.nombre}))
+                                    .append($('<td>', {text: value.localidad}))
+                                $('#info tbody').append(tr)
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+   });
+
+   function returnDataJson(numero, nombre, localidad){
+    return {
+        numero: parseInt(numero),
+        nombre: nombre,
+        localidad: localidad
+    };
    }
 
 </script>
