@@ -72,6 +72,7 @@ input[type="text"] {
     width: 100%; /* Ocupa todo el ancho del contenedor */
     padding: 10px;
     margin-bottom: 20px;
+    margin-top: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -238,5 +239,34 @@ img:hover {
     border: 2px solid #3498db; /* Borde del contenedor */
     border-radius: 10px; /* Bordes redondeados del contenedor */
 }
+
+
+
+
+/* Estilo para los enlaces que se verán como botones */
+a {
+    display: inline-block;
+    padding: 10px 20px;         /* Espacio interno del botón */
+    background-color: darkgrey;  /* Color de fondo (verde) */
+    color: white;               /* Color del texto */
+    text-align: center;         /* Centrar el texto */
+    text-decoration: none;      /* Quitar el subrayado del enlace */
+    border-radius: 5px;         /* Bordes redondeados */
+    font-size: 14px;            /* Tamaño del texto */
+    font-weight: bold;          /* Texto en negrita */
+    transition: background-color 0.3s ease;  /* Transición suave para cambios de color */
+}
+
+/* Cambiar color al pasar el mouse */
+a:hover {
+    background-color: grey;  /* Color de fondo cuando el mouse pasa sobre el enlace */
+    cursor: pointer;            /* Cambiar el cursor a pointer */
+}
+
+/* Si el enlace está dentro de una celda de tabla, puedes añadir un estilo adicional */
+tbody a {
+    margin: 5px;                /* Añadir margen entre enlaces en las celdas de la tabla */
+}
+
 
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssPrueba.css">
+</head>
+<body>
+
+    <h1>DEPARTAMENTOS Y EMPLEADOS JSON</h1>
+
+    <table id="infoDepartamentos">
+        <thead>
+            <tr>
+                <th>NÚMERO</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+                <th>Empleados</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <hr>
+
+    <table id="infoEmpleados">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+</body>
+<script src="JS/jquery-3.7.1.js"></script>
+<script>
+
+    var url1 = 'https://apicruddepartamentoscore.azurewebsites.net/'
+    var url2 = 'https://apiempleadosspgs.azurewebsites.net/'
+
+   $(document).ready(function () {
+
+    loadDepartamentos();
+
+   });
+
+
+   function loadDepartamentos() {
+        let request = 'api/Departamentos'
+            $.ajax({
+                type: "GET",
+                url: url1 + request,
+                dataType: "json",
+                success: function (response) {
+                    $('#infoDepartamentos tbody').html('')
+                    $.each(response, function (key, value) { 
+                        let tr = $('<tr>')
+                        tr.append($('<td>', {text: value.numero}))
+                            .append($('<td>', {text: value.nombre}))
+                            .append($('<td>', {text: value.localidad}))
+                            .append($('<a>', {href: '#', text: 'EMPLEADOS'})).click(function() {
+                                loadEmpleados(value.numero)
+                            })
+                            // .append($('<button>', {value: value.numero, text: 'EMPLEADOS'})).click(function() {
+                            //     loadEmpleados(value.numero)
+                            // })
+                        $('#infoDepartamentos tbody').append(tr)
+                    });
+                }
+            });
+   }
+
+   function loadEmpleados(numero) {
+        let request = 'api/Empleados/EmpleadosDepartamento/' + numero
+        $.ajax({
+            type: "GET",
+            url: url2 + request,
+            dataType: "json",
+            success: function (response) {
+                $('#infoEmpleados tbody').html('')
+                $.each(response, function (key, value) {
+                    let tr = $('<tr>')
+                    tr.append($('<td>', {text: value.apellido}))
+                        .append($('<td>', {text: value.oficio}))
+                        .append($('<td>', {text: value.salario}))
+                        .append($('<td>', {text: value.departamento}))
+                    $('#infoEmpleados tbody').append(tr)
+                }
+                );
+            }
+        });
+    }
+
+</script>
+
+</html>
