@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Fixed top navbar example · Bootstrap v5.0</title>
+
+    <!-- Bootstrap core CSS -->
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap/navbar-top-fixed.css" rel="stylesheet">
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">HOSPITALES</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./web26index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Insertar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="container">
+      <div class="bg-light p-5 rounded">
+        <div class="bg-light p-5 rounded">
+            <div class="form-group">
+                <label for="inpIdHospital">ID HOSPITAL</label>
+                <input class="form-control m-2" type="text" id="inpIdHospital" placeholder="Introduce idHospital">
+                <label for="inpNombre">NOMBRE</label>
+                <input class="form-control m-2" type="text" id="inpNombre" placeholder="Introduce nombre">
+                <label for="inpNombre">DIRECCION</label>
+                <input class="form-control m-2" type="text" id="inpDireccion" placeholder="Introduce direccion">
+                <label for="inpNombre">TELEFONO</label>
+                <input class="form-control m-2" type="text" id="inpTelefono" placeholder="Introduce telefono">
+                <label for="inpNombre">CAMAS</label>
+                <input class="form-control m-2" type="text" id="inpCamas" placeholder="Introduce camas">
+                <button id="bttSubmit" class="btn btn-primary mt-2">INSERTAR HOSPITAL</button>
+            </div>
+          </div>
+      </div>
+    </main>
+    
+      <script src="JS/jquery-3.7.1.js"></script>
+      <script src="JS/bootstrap/bootstrap.bundle.js"></script>
+      <script>
+
+        var url = 'https://apicrudhospital.azurewebsites.net/'
+
+          $(document).ready(function () {
+            $('#bttSubmit').click(function() {
+                id = $('#inpIdHospital').val()
+                nombre = $('#inpNombre').val()
+                direccion = $('#inpDireccion').val()
+                telefono = $('#inpTelefono').val()
+                camas = $('#inpCamas').val()
+
+                if(id && nombre && direccion && telefono && camas){
+
+                    data = {
+                        idhospital: parseInt(id),
+                        nombre: nombre,
+                        direccion: direccion,
+                        telefono: telefono,
+                        camas: parseInt(camas)
+                    }
+
+                    let request = 'webresources/hospitales/post'
+                    $.ajax({
+                        type: "POST",
+                        url: url + request,
+                        data: JSON.stringify(data),
+                        contentType: "application/json",
+                        success: function (response) {
+                            let link = './web26index.html'
+                            $(location).attr('href',link);
+                        }
+                    });
+                } else{
+                    alert('completa los datos')
+                }
+            })
+          });
+          
+
+      </script>
+  
+          
+  </body>
+</html>

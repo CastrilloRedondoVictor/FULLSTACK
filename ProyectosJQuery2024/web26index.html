@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Fixed top navbar example · Bootstrap v5.0</title>
+
+    <!-- Bootstrap core CSS -->
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.14.2/dist/sweetalert2.min.css
+" rel="stylesheet">
+
+
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap/navbar-top-fixed.css" rel="stylesheet">
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">HOSPITALES</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./web26insertHospital.html">Insertar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="container">
+      <div class="bg-light p-5 rounded">
+        <table id="hospitales" class="table table-striped">
+          <thead>
+            <th>idhospital</th>
+            <th>nombre</th>
+            <th>direccion</th>
+            <th>telefono</th>
+            <th>camas</th>
+            <th>acciones</th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+    
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="JS/jquery-3.7.1.js"></script>
+      <script src="JS/bootstrap/bootstrap.bundle.js"></script>
+      <script>
+
+      
+
+        var url = 'https://apicrudhospital.azurewebsites.net/'
+          $(document).ready(function () {
+              getHospitales();
+          });
+          function getHospitales() {
+            let request = 'webresources/hospitales/'
+            $.ajax({
+              type: "GET",
+              url: url + request,
+              success: function (response) {
+                $('#hospitales tbody').html('')
+                $.each(response, function (key, value) { 
+                  let bttEliminar = $('<button>', {text: 'ELIMINAR', class: 'btn btn-outline-danger m-1'}).click(function(){
+                    deleteHospital(value.idhospital);
+                  })
+                  let bttEditar = $('<button>', {text: 'EDITAR', class: 'btn btn-outline-primary m-1'}).click(function(){
+                    let link = './web26infoHospital.html?idhosp=' + value.idhospital
+                    $(location).attr('href',link);
+                  })
+                  let tdBtt = $('<td>').append(bttEditar).append(bttEliminar)
+                   let tr = $('<tr>')
+                    tr.append($('<td>', {text: value.idhospital}))
+                      .append($('<td>', {text: value.nombre}))
+                      .append($('<td>', {text: value.direccion}))
+                      .append($('<td>', {text: value.telefono}))
+                      .append($('<td>', {text: value.camas}))
+                      .append(tdBtt)
+                    
+                    $('#hospitales tbody').append(tr)
+                });
+              }
+            });
+          }
+
+
+          function deleteHospital(id){
+
+            Swal.fire({
+              title: 'Atención!',
+              text: 'Seguro que quieres eliminar el hospital con ID ' + id + '?',
+              icon: 'error',
+              confirmButtonText: 'Eliminar',
+              cancelButtonText: 'Volver',
+              showCancelButton: true,
+              confirmButtonColor: 'red',
+              cancelButtonColor: 'grey',
+              showCloseButton: true
+            }).then((resp) => {
+              if(resp.value){
+                let request = 'webresources/hospitales/delete/' + id
+                $.ajax({
+                  type: "DELETE",
+                  url: url + request,
+                  success: function (response) {
+                    getHospitales()
+                  }
+                });
+              }
+            })
+          }
+      </script>
+  
+          
+  </body>
+</html>
