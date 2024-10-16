@@ -1,0 +1,7 @@
+COMANDOS REACT
+
+CREAR APP-----------------------npx create-react-app 'nombre'
+INICIAR------------------------ npm start
+INSTALAR DEPENDENCIAS----------	npm install
+
+

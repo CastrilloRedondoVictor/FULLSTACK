@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica Jquery 1</title>
+    <link rel="stylesheet" href="../css/cssPrueba.css">
+</head>
+<body>
+    <h1>PRACTICA JQUERY</h1>
+    <select id="selectCursos">
+        <option value="">SELECCIONE CURSO</option>
+    </select>
+    <ul id="info"></ul>
+</body>
+<script src="../JS/jquery-3.7.1.js"></script>
+<script>
+
+    url = 'https://apiejemplos.azurewebsites.net/'
+
+    $(document).ready(function () {
+        request = 'api/Alumnos/Cursos'
+        $.ajax({
+            type: "GET",
+            url: url + request,
+            success: function (response) {
+                $.each(response, function (key, value) { 
+                     $('#selectCursos').append($('<option>', {value: value, text: value}))
+                });
+            }
+        });
+
+        $('#selectCursos').change(function () {
+            let curso = $(this).val()
+            
+            if(curso){
+                request = 'api/Alumnos/FiltrarCurso/' + curso
+                $.ajax({
+                    type: "GET",
+                    url: url + request,
+                    success: function (response) {
+                        $('#info').html('');
+                        $.each(response, function (key, value) { 
+                             $('#info').append($('<li>', {text: value.nombre + ' ' + value.apellidos}))
+                        });
+                    }
+                });
+            } else {
+                $('#info').html('');
+            }
+        })
+    });
+
+</script>
+</html>
